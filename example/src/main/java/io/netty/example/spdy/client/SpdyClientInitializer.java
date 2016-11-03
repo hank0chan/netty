@@ -18,6 +18,7 @@ package io.netty.example.spdy.client;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
+import io.netty.handler.codec.http.HttpContentDecompressor;
 import io.netty.handler.codec.spdy.SpdyFrameCodec;
 import io.netty.handler.codec.spdy.SpdyHttpDecoder;
 import io.netty.handler.codec.spdy.SpdyHttpEncoder;
@@ -48,6 +49,8 @@ public class SpdyClientInitializer extends ChannelInitializer<SocketChannel> {
         pipeline.addLast("spdySessionHandler", new SpdySessionHandler(SPDY_3_1, false));
         pipeline.addLast("spdyHttpEncoder", new SpdyHttpEncoder(SPDY_3_1));
         pipeline.addLast("spdyHttpDecoder", new SpdyHttpDecoder(SPDY_3_1, MAX_SPDY_CONTENT_LENGTH));
+        pipeline.addLast("inflater", new HttpContentDecompressor());
+
         pipeline.addLast("spdyStreamIdHandler", new SpdyClientStreamIdHandler());
         pipeline.addLast("httpHandler", httpResponseHandler);
     }
