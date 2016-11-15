@@ -17,8 +17,6 @@ package io.netty.example.spdy.server;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelPipeline;
-import io.netty.handler.codec.http.HttpContentCompressor;
-import io.netty.handler.codec.http.HttpContentDecompressor;
 import io.netty.handler.codec.http.HttpObjectAggregator;
 import io.netty.handler.codec.http.HttpServerCodec;
 import io.netty.handler.codec.spdy.SpdyFrameCodec;
@@ -63,8 +61,6 @@ public class SpdyOrHttpHandler extends ApplicationProtocolNegotiationHandler {
         p.addLast(new SpdySessionHandler(version, true));
         p.addLast(new SpdyHttpEncoder(version));
         p.addLast(new SpdyHttpDecoder(version, MAX_CONTENT_LENGTH));
-        p.addLast("inflater", new HttpContentCompressor());
-
         p.addLast(new SpdyHttpResponseStreamIdHandler());
         p.addLast(new SpdyServerHandler());
     }

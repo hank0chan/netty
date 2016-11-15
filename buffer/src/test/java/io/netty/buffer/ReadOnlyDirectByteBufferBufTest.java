@@ -101,10 +101,12 @@ public class ReadOnlyDirectByteBufferBufTest {
     @Test(expected = ReadOnlyBufferException.class)
     public void testSetBytesViaBuffer() {
         ByteBuf buf = buffer(allocate(8).asReadOnlyBuffer());
+        ByteBuf copy = Unpooled.copyInt(1);
         try {
-            buf.setBytes(0, Unpooled.copyInt(1));
+            buf.setBytes(0, copy);
         } finally {
             buf.release();
+            copy.release();
         }
     }
 

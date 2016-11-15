@@ -134,7 +134,7 @@ public final class ReferenceCountUtil {
      * intended to simplify reference counting of ephemeral objects during unit tests. Do not use it beyond the
      * intended use case.
      *
-     * @deprecated as this may introduce a lot of memory usage better explicit release objects.
+     * @deprecated this may introduce a lot of memory usage so it is generally preferable to manually release objects.
      */
     @Deprecated
     public static <T> T releaseLater(T msg) {
@@ -146,7 +146,7 @@ public final class ReferenceCountUtil {
      * intended to simplify reference counting of ephemeral objects during unit tests. Do not use it beyond the
      * intended use case.
      *
-     * @deprecated as this may introduce a lot of memory usage better explicit release objects.
+     * @deprecated this may introduce a lot of memory usage so it is generally preferable to manually release objects.
      */
     @Deprecated
     public static <T> T releaseLater(T msg, int decrement) {

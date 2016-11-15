@@ -600,6 +600,7 @@ public abstract class AbstractCompositeByteBufTest extends AbstractByteBufTest {
 
         c3.release(2);
         c2.release();
+        buf.release();
     }
 
     @Test
@@ -662,9 +663,6 @@ public abstract class AbstractCompositeByteBufTest extends AbstractByteBufTest {
 
         c3.release(2);
         c2.release();
-
-        buf.removeComponent(2);
-        buf.removeComponent(1);
         buf.release();
     }
 
