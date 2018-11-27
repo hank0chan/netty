@@ -88,7 +88,9 @@ public abstract class ChannelInitializer<C extends Channel> extends ChannelInbou
      */
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-        logger.warn("Failed to initialize a channel. Closing: " + ctx.channel(), cause);
+        if (logger.isWarnEnabled()) {
+            logger.warn("Failed to initialize a channel. Closing: " + ctx.channel(), cause);
+        }
         ctx.close();
     }
 
@@ -100,7 +102,7 @@ public abstract class ChannelInitializer<C extends Channel> extends ChannelInbou
         if (ctx.channel().isRegistered()) {
             // This should always be true with our current DefaultChannelPipeline implementation.
             // The good thing about calling initChannel(...) in handlerAdded(...) is that there will be no ordering
-            // suprises if a ChannelInitializer will add another ChannelInitializer. This is as all handlers
+            // surprises if a ChannelInitializer will add another ChannelInitializer. This is as all handlers
             // will be added in the expected order.
             initChannel(ctx);
         }

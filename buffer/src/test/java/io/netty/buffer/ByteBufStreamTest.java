@@ -15,8 +15,6 @@
  */
 package io.netty.buffer;
 
-import io.netty.util.ReferenceCountUtil;
-import io.netty.util.ReferenceCounted;
 import org.junit.Test;
 
 import java.io.EOFException;
@@ -32,7 +30,7 @@ public class ByteBufStreamTest {
 
     @Test
     public void testAll() throws Exception {
-        ByteBuf buf = ReferenceCountUtil.releaseLater(Unpooled.buffer(0, 65536));
+        ByteBuf buf = Unpooled.buffer(0, 65536);
 
         try {
             new ByteBufOutputStream(null);
@@ -178,6 +176,7 @@ public class ByteBufStreamTest {
         }
 
         assertEquals(buf.readerIndex(), in.readBytes());
+        buf.release();
     }
 
     @Test
@@ -189,11 +188,13 @@ public class ByteBufStreamTest {
         String s = in.readLine();
         assertNull(s);
 
-        int charCount = 5; //total chars in the string below without new line characters
-        byte[] abc = "a\nb\r\nc\nd\ne".getBytes(utf8);
+        int charCount = 7; //total chars in the string below without new line characters
+        byte[] abc = "\na\n\nb\r\nc\nd\ne".getBytes(utf8);
         buf.writeBytes(abc);
         in.mark(charCount);
+        assertEquals("", in.readLine());
         assertEquals("a", in.readLine());
+        assertEquals("", in.readLine());
         assertEquals("b", in.readLine());
         assertEquals("c", in.readLine());
         assertEquals("d", in.readLine());
